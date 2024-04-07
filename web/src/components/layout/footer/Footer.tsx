@@ -20,9 +20,9 @@ export default function Footer() {
                 passHref
                 className="font-robotoMono text-center text-xl font-medium text-white no-underline"
               >
-                BUILD ONCHAIN APPS
+                AttestCaster
               </NextLink>
-              <NavbarLink href="https://github.com/coinbase/build-onchain-apps" target="_blank">
+              <NavbarLink href="https://github.com/AttestCaster/" target="_blank">
                 <GitHubLogoIcon
                   width="24"
                   height="24"
@@ -48,19 +48,24 @@ export default function Footer() {
 
           <div className="font-robotoMono flex flex-col items-start justify-center gap-4 text-center text-xl font-medium text-white">
             EXPERIENCES
-            <NavbarLink href="/buy-me-coffee">
+            <NavbarLink href="https://www.ethsign.xyz/">
               <span className="flex items-center gap-1 px-2">
-                Buy Me Coffee <ArrowTopRightIcon width="16" height="16" />
+                Sign Protocol <ArrowTopRightIcon width="16" height="16" />
               </span>
             </NavbarLink>
-            <NavbarLink href="/mint">
+            <NavbarLink href="https://docs.farcaster.xyz/">
               <span className="flex items-center gap-1 px-2">
-                Mint NFT <ArrowTopRightIcon width="16" height="16" />
+                Farcaster <ArrowTopRightIcon width="16" height="16" />
               </span>
             </NavbarLink>
-            <NavbarLink href="/paymaster-bundler">
+            <NavbarLink href="https://scan.sign.global/">
               <span className="flex items-center gap-1 px-2">
-                Paymaster Bundler <ArrowTopRightIcon width="16" height="16" />
+                Sign Scan <ArrowTopRightIcon width="16" height="16" />
+              </span>
+            </NavbarLink>
+            <NavbarLink href="https://www.base.org/">
+              <span className="flex items-center gap-1 px-2">
+                Base <ArrowTopRightIcon width="16" height="16" />
               </span>
             </NavbarLink>
           </div>

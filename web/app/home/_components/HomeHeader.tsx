@@ -1,31 +1,72 @@
 import { clsx } from 'clsx';
-import CodeBlock from '@/components/code-block/CodeBlock';
-import Header from '@/components/layout/header/Header';
-import styles from './Home.module.css';
+import Button from '@/components/Button/Button';
 
-const codeStep1 = `\`\`\`bash
-$ npx @coinbase/build-onchain-apps@latest create`;
+// import CodeBlock from '@/components/code-block/CodeBlock';
+import Header from '@/components/layout/header/Header';
+import useFields from '../_hooks/useFields';
+import styles from './Home.module.css';
+import InputText from './InputText';
+import Label from './Label';
+
+
+
+// const codeStep1 = `\`\`\`bash
+// $ npx @coinbase/build-onchain-apps@latest create`;
+
+const initFields = {
+  castId: '',
+};
+
+type Fields = {
+  castId: string;
+};
 
 export default function HomeHeader() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { fields, setField, resetFields } = useFields<Fields>(initFields);
+
   return (
     <div className={styles.HomeHeader}>
       <div className={styles.HomeHeaderGradient} />
       <Header />
       <div className="flex flex-col items-center justify-center">
         <h1 className={clsx(styles.HomeHeaderHeadline, 'font-robotoMono')}>
-          BUILD
+          AttestCaster
           <br />
-          ONCHAIN
+          
           <br />
-          APPS
+          
         </h1>
         <p className={styles.HomeHeaderParagraph}>
-          Accelerate your web3 creativity with
+          Attest the casts
           <br />
-          Build Onchain Apps Toolkit.
+          Build a better social network.
         </p>
-        <div className={styles.HomeHeaderCta}>
+        {/* <div className={styles.HomeHeaderCta}>
           <CodeBlock code={codeStep1} />
+        </div> */}
+        <div>
+          <div className="mb-5">
+            <Label htmlFor="CastID">Cast</Label>
+            <InputText
+              id="castId"
+              placeholder="Cast Id or Cast URL"
+              // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+              onChange={(evt) => setField('castId', evt.target.value)}
+              disabled={false}
+              required
+            />
+            <Button
+              buttonContent={
+                <>
+                  Attest
+                </>
+              }
+              type="submit"
+              // onClick={}
+              disabled={false}
+            />
+          </div>
         </div>
       </div>
       <div className={styles.HomeHeaderWaves}>

@@ -1,6 +1,6 @@
 {
-  "name": "Build Onchain Apps",
-  "short_name": "Onchain App",
+  "name": "AttestCaster App",
+  "short_name": "AttestCaster App",
   "icons": [
     {
       "src": "/icons/16x16.png",
