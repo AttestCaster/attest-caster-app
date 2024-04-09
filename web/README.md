@@ -1,4 +1,13 @@
-# Build Onchain Apps Toolkit Experiences
+# AttestCaster
+
+AttestCaster is a simple solution for issuing and managing attestations in the form of a client application for Farcaster, the leading decentralised social network protocol in the world.
+
+By building this solution in the form of a Farcaster client, users will be able to:
+
+- join the attestation ecosystem of [`Sign Protocol`](https://sign.global/) with their existing Farcaster accounts.
+- contribute to the growth and issuance of attestations in Sign Protocol’s attestation ecosystem. As easy as making a social media post, probably easier.
+- test and suggest new schemas for Sign Protocol’s schema registry
+- attest to the social media content they see, i.e., can function akin to X’s Community Notes feature
 
 ## Getting Started
 
@@ -8,7 +17,17 @@
 NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=ADD_WALLET_CONNECT_PROJECT_ID_HERE
 ```
 
-#### Step 2: Install and Run your onchain app
+
+#### Step 2: copy `./web/.env.local.example ./web/.env.local` and fill out the following parameters
+```
+# The bot to sign attestation, any ETH accounts
+SIGN_BOT_PRIVATE_KEY=
+# This bot is used to post attestations on Farcaster, FID and Key should match
+FARCASTER_BOT_FID=
+FARCASTER_BOT_PRIVATE_KEY=
+```
+
+#### Step 3: Install and Run your onchain app
 
 ```bash
 # Install
@@ -17,6 +36,10 @@ yarn
 # Run
 yarn dev
 ```
+
+#### Step 4: Deploy in Vercel
+
+deploy both fron-end and back-end in [Vercel](https://vercel.com/)
 
 ## Develop
 
@@ -30,61 +53,8 @@ yarn format
 yarn lint
 ```
 
-## Updating ABI
+## Thanks
 
-After you create a project using BOAT, these are the folders and files you are interested in when updating a smart contract:
-_Using BuyMeACoffee smart contract as an example below_
-
-```bash
-<project-name>
-├── contracts
-│   ├── src
-│   │   └── BuyMeACoffee.sol          ← smart contract code
-│   └──out/BuyMeACoffee.sol
-│       └── BuyMeACoffee.json         ← output from "forge build" which contains the updated ABI
-│
-└── web/app/buy-me-coffee
-    └── _contracts
-        ├── BuyMeACoffeeABI.ts             ← copy of ABI from contracts/out/BuyMeACoffee.json
-        └── useBuyMeACoffeeContract.ts     ← deploy address
-```
-
-### Importing updated ABI to frontend code
-
-After updating your smart contract code, run `forget build` in the `contracts` folder. This will create a json in the `contracts/out` directory.
-
-The output json contains additional information. We only need the `abi` property from that json object. Let's use `jq` to extract just the `abi` property
-
-```bash
-# from the "contract" folder
-
-jq .abi out/BuyMeACoffee/BuyMeACoffee.json
-```
-
-Take the output of `jq` and update `web/app/buy-me-coffee/_contracts/BuyMeACoffeeABI.ts`
-
-Done with first step!
-
-### Deploying your smart contract and updating frontend code
-
-Make sure you got all the environment variables squared away in `contracts/.env` and get some base sepolia eth from a faucet!
-
-To deploy your smart contract,
-
-```bash
-# from the "contract" folder
-
-source .env && forge script script/LocalContract.s.sol:LocalContractScript  --broadcast --rpc-url https://sepolia.base.org
-```
-
-In the long output, find the value for `Contract Address`.
-
-Copy that value and update `web/app/buy-me-coffee/_contracts/useBuyMeACoffeeContract.ts` with the new address.
-
-## Outro
-
-This is one of the more error prone steps. Take it step by step.
-
-If you are new smart contract deployment, just try deploying the existing `BuyMeACoffee` contract and replace the contract address. After, try updating `BuyMeACoffee.sol` and get the new ABI in your frontend code.
+This repo is built based on [Coinbase OnchainKit](https://github.com/coinbase/onchainkit)
 
 We are thinking of ways to make this step easier in the future! Happy hacking!
