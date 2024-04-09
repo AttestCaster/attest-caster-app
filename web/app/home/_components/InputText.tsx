@@ -19,7 +19,7 @@ export default function InputText({
       id={id}
       className={clsx([
         'block w-full rounded-lg border border-gray-600 bg-boat-color-gray-900',
-        'p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500',
+        'p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 mb-2',
       ])}
       placeholder={placeholder}
       onChange={onChange}

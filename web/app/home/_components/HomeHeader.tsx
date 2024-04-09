@@ -14,16 +14,27 @@ import Label from './Label';
 // $ npx @coinbase/build-onchain-apps@latest create`;
 
 const initFields = {
-  castId: '',
+  castURL: '',
 };
 
 type Fields = {
-  castId: string;
+  castURL: string;
 };
 
-export default function HomeHeader() {
+// TODO: Send request to backend
+export function getCast(url) {
+  return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vestibulum placerat consequat. Proin ac congue tortor, sed ullamcorper metus. Aenean ultricies risus turpis, a finibus elit pharetra quis. Nullam dignissim, justo vitae scelerisque feugiat, justo ante finibus sapien, dignissim aliquam magna nunc eget risus. \nDonec pulvinar dictum quam, vitae lacinia.";
+}
+
+export default function HomeHeader(props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { fields, setField, resetFields } = useFields<Fields>(initFields);
+
+  function retrieveCast() {
+    console.log(fields.castURL)
+    const cast = getCast(fields.castURL);
+    props.setCast(cast);
+  }
 
   return (
     <div className={styles.HomeHeader}>
@@ -33,9 +44,7 @@ export default function HomeHeader() {
         <h1 className={clsx(styles.HomeHeaderHeadline, 'font-robotoMono')}>
           AttestCaster
           <br />
-          
           <br />
-          
         </h1>
         <p className={styles.HomeHeaderParagraph}>
           Attest the casts
@@ -49,21 +58,21 @@ export default function HomeHeader() {
           <div className="mb-5">
             <Label htmlFor="CastID">Cast</Label>
             <InputText
-              id="castId"
-              placeholder="Cast Id or Cast URL"
+              id="castURL"
+              placeholder="Cast URL"
               // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
-              onChange={(evt) => setField('castId', evt.target.value)}
+              onChange={(evt) => setField('castURL', evt.target.value)}
               disabled={false}
               required
             />
             <Button
               buttonContent={
                 <>
-                  Attest
+                  Get Cast
                 </>
               }
               type="submit"
-              // onClick={}
+              onClick={retrieveCast}
               disabled={false}
             />
           </div>
