@@ -2122,15 +2122,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethsign/sp-sdk@npm:^0.3.13":
-  version: 0.3.13
-  resolution: "@ethsign/sp-sdk@npm:0.3.13"
+"@ethsign/sp-sdk@npm:^0.3.14":
+  version: 0.3.14
+  resolution: "@ethsign/sp-sdk@npm:0.3.14"
   dependencies:
     ethers: "npm:^6.10.0"
     tslib: "npm:^2.6.2"
   peerDependencies:
     viem: ">=2.0.0"
-  checksum: 10c0/91e852a40ee94702a6ab0bba7593149318e7fd1fd15a32b16e970da35231d86824bccd9156fc656daab9d5401be4acf39032cf848b56b31741213267ee04938c
+  checksum: 10c0/efd99759b93b7cf6d8bac0c214772c1bab14a23285c48c863e19577c99bf6e4feb4df1bb07ee1ceebd6ebc148ab344cbae7c69490f02a18559a95da3410750f5
   languageName: node
   linkType: hard
 
@@ -6125,7 +6125,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.23.3"
     "@coinbase/onchainkit": "npm:0.10.0"
     "@coinbase/wallet-sdk": "npm:^3.9.1"
-    "@ethsign/sp-sdk": "npm:^0.3.13"
+    "@ethsign/sp-sdk": "npm:^0.3.14"
     "@farcaster/hub-nodejs": "npm:^0.11.8"
     "@jest/globals": "npm:^29.7.0"
     "@noble/hashes": "npm:^1.4.0"

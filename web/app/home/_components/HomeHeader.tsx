@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { clsx } from 'clsx';
 import Button from '@/components/Button/Button';
 
@@ -7,8 +8,13 @@ import useFields from '../_hooks/useFields';
 import styles from './Home.module.css';
 import InputText from './InputText';
 import Label from './Label';
-
-
+import {
+  SignProtocolClient,
+  SpMode,
+  EvmChains,
+  OffChainSignType,
+  OffChainRpc,
+} from "@ethsign/sp-sdk";
 
 // const codeStep1 = `\`\`\`bash
 // $ npx @coinbase/build-onchain-apps@latest create`;
@@ -21,19 +27,77 @@ type Fields = {
   castURL: string;
 };
 
+
+// Todo:: finish this function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const passeURLParams = (url: string) => {
+  const name = 'n'
+  const shortHash = '0x70047321'
+  return [name, shortHash]
+}
+
+// Todo:: finish this function
+// API can be used: https://docs.neynar.com/reference/cast
+const parseCastURL = (url: string) => {
+  // validate URL
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [name, shortHash] = passeURLParams(url)
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  const fid: number = 274
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  const castHash: string = '0x7004732137fdd9695a592d247d1f7342fb8888d9'
+  return [fid, castHash]
+}
+
 // TODO: Send request to backend
-export function getCast(url) {
-  return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vestibulum placerat consequat. Proin ac congue tortor, sed ullamcorper metus. Aenean ultricies risus turpis, a finibus elit pharetra quis. Nullam dignissim, justo vitae scelerisque feugiat, justo ante finibus sapien, dignissim aliquam magna nunc eget risus. \nDonec pulvinar dictum quam, vitae lacinia.";
+export async function getCast(url) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    const [fid, castHash] = await parseCastURL(url)
+    const response = await axios.get('/api/farcaster/cast?fid=' + fid.toString() + '&cast_hash=' + castHash.toString());
+    const castAdd = response.data.cast.data.castAddBody
+    console.log(response);
+    console.log('castAdd', castAdd)
+    return castAdd;
+  } catch (error) {
+    console.error(error);
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  // return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vestibulum placerat consequat. Proin ac congue tortor, sed ullamcorper metus. Aenean ultricies risus turpis, a finibus elit pharetra quis. Nullam dignissim, justo vitae scelerisque feugiat, justo ante finibus sapien, dignissim aliquam magna nunc eget risus. \nDonec pulvinar dictum quam, vitae lacinia.";
+}
+
+
+const attest = async (authorFID: number, castHash: string, attesterFID: number, attesterComment: string, signature: string) => {
+  const client = new SignProtocolClient(SpMode.OffChain, {
+    signType: OffChainSignType.EvmEip712,
+    // signType: OffChainSignType["evm-eip712"],
+    rpcUrl: OffChainRpc.testnet,
+    // account: privateKeyToAccount(privateKey), // optional
+  });
+  const schemaId = `${process.env.SIGN_PROTOCOL_SCHEMA_ID_FARCASTER}`
+  try {
+    const result = await client.createAttestation({
+      schemaId: schemaId,
+      data: { castHash, authorFID, attesterFID, attesterComment, signature },
+      indexingValue: "xxx",
+    })
+    console.log('attest result', result)
+    return result
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export default function HomeHeader(props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { fields, setField, resetFields } = useFields<Fields>(initFields);
 
-  function retrieveCast() {
+  async function retrieveCast() {
     console.log(fields.castURL)
-    const cast = getCast(fields.castURL);
-    props.setCast(cast);
+    const cast = await getCast(fields.castURL);
+    props.setCast(cast.text);
   }
 
   return (

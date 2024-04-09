@@ -20,7 +20,7 @@
   "dependencies": {
     "@coinbase/onchainkit": "0.10.0",
     "@coinbase/wallet-sdk": "^3.9.1",
-    "@ethsign/sp-sdk": "^0.3.13",
+    "@ethsign/sp-sdk": "^0.3.14",
     "@farcaster/hub-nodejs": "^0.11.8",
     "@noble/hashes": "^1.4.0",
     "@privy-io/react-auth": "^1.56.2",
