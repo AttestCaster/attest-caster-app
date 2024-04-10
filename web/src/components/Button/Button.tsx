@@ -23,24 +23,26 @@ export default function Button({
   rounded = true,
 }: ButtonProps) {
   return (
-    <button
-      // eslint-disable-next-line react/button-has-type
-      type={type}
-      onClick={onClick}
-      className={clsx(
-        'flex w-full items-center justify-center',
-        'py-4 text-sm',
-        variant === 'primary' ? 'bg-white' : 'bg-black',
-        variant === 'primary' ? 'text-black' : 'text-white',
-        disabled && variant === 'primary' ? 'bg-gray-400' : null,
-        disabled && variant === 'secondary' ? 'bg-boat-color-gray-900' : null,
-        rounded ? 'rounded-full' : null,
-        className,
-      )}
-      disabled={disabled}
-    >
-      {icon ? <span className="mr-2">{icon}</span> : null}
-      {buttonContent}
-    </button>
+    <div className="flex justify-center items-center">
+      <button
+        // eslint-disable-next-line react/button-has-type
+        type={type}
+        onClick={onClick}
+        className={clsx(
+          'flex w-40 items-center justify-center',
+          'py-4 text-sm',
+          variant === 'primary' ? 'bg-white' : 'bg-black',
+          variant === 'primary' ? 'text-black' : 'text-white',
+          disabled && variant === 'primary' ? 'bg-gray-400' : null,
+          disabled && variant === 'secondary' ? 'bg-boat-color-gray-900' : null,
+          rounded ? 'rounded-full' : null,
+          className,
+        )}
+        disabled={disabled}
+      >
+        {icon ? <span className="mr-2">{icon}</span> : null}
+        {buttonContent}
+      </button>
+    </div>
   );
 }

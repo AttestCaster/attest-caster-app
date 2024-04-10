@@ -118,7 +118,7 @@ export default function HomeHeader(props) {
         {/* <div className={styles.HomeHeaderCta}>
           <CodeBlock code={codeStep1} />
         </div> */}
-        <div>
+        <div className="w-1/2">
           <div className="mb-5">
             <Label htmlFor="CastID">Cast</Label>
             <InputText
