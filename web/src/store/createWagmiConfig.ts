@@ -17,7 +17,7 @@ export function createWagmiConfig(projectId: string) {
       },
     ],
     {
-      appName: 'buildonchainapps',
+      appName: 'AttestCaster',
       projectId,
     },
   );

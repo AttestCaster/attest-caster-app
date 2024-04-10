@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import axios from 'axios';
 import { clsx } from 'clsx';
 import Button from '@/components/Button/Button';
@@ -8,13 +11,8 @@ import useFields from '../_hooks/useFields';
 import styles from './Home.module.css';
 import InputText from './InputText';
 import Label from './Label';
-import {
-  SignProtocolClient,
-  SpMode,
-  EvmChains,
-  OffChainSignType,
-  OffChainRpc,
-} from "@ethsign/sp-sdk";
+import { NeynarAPIClient, isApiErrorResponse, CastParamType } from "@neynar/nodejs-sdk";
+
 
 // const codeStep1 = `\`\`\`bash
 // $ npx @coinbase/build-onchain-apps@latest create`;
@@ -36,57 +34,26 @@ const passeURLParams = (url: string) => {
   return [name, shortHash]
 }
 
-// Todo:: finish this function
 // API can be used: https://docs.neynar.com/reference/cast
-const parseCastURL = (url: string) => {
+const getCastByURL = async (url: string) => {
   // validate URL
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [name, shortHash] = passeURLParams(url)
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  const fid: number = 274
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  const castHash: string = '0x7004732137fdd9695a592d247d1f7342fb8888d9'
-  return [fid, castHash]
-}
-
-// TODO: Send request to backend
-export async function getCast(url) {
+  const client = new NeynarAPIClient(`${process.env.NEXT_PUBLIC_REACT_NEYNAR_API_KEY}`); // Replace with your Neynar API Key.
   try {
-    // eslint-disable-next-line @typescript-eslint/await-thenable
-    const [fid, castHash] = await parseCastURL(url)
-    const response = await axios.get('/api/farcaster/cast?fid=' + fid.toString() + '&cast_hash=' + castHash.toString());
-    const castAdd = response.data.cast.data.castAddBody
-    console.log(response);
-    console.log('castAdd', castAdd)
-    return castAdd;
+    // 19960 (Required*) => fid of user  we are looking for
+    // 191 (Optional) => fid of the viewer
+    // Get more info @ https://docs.neynar.com/reference/user-v1
+    const castAdd = await client.lookUpCastByHashOrWarpcastUrl(url, CastParamType.Url);
+
+    // Stringify and log the response
+    console.log(JSON.stringify(castAdd));
+    return [castAdd.cast.author.fid, castAdd.cast.hash, castAdd]
   } catch (error) {
-    console.error(error);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  // return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vestibulum placerat consequat. Proin ac congue tortor, sed ullamcorper metus. Aenean ultricies risus turpis, a finibus elit pharetra quis. Nullam dignissim, justo vitae scelerisque feugiat, justo ante finibus sapien, dignissim aliquam magna nunc eget risus. \nDonec pulvinar dictum quam, vitae lacinia.";
-}
-
-
-const attest = async (authorFID: number, castHash: string, attesterFID: number, attesterComment: string, signature: string) => {
-  const client = new SignProtocolClient(SpMode.OffChain, {
-    signType: OffChainSignType.EvmEip712,
-    // signType: OffChainSignType["evm-eip712"],
-    rpcUrl: OffChainRpc.testnet,
-    // account: privateKeyToAccount(privateKey), // optional
-  });
-  const schemaId = `${process.env.SIGN_PROTOCOL_SCHEMA_ID_FARCASTER}`
-  try {
-    const result = await client.createAttestation({
-      schemaId: schemaId,
-      data: { castHash, authorFID, attesterFID, attesterComment, signature },
-      indexingValue: "xxx",
-    })
-    console.log('attest result', result)
-    return result
-  } catch (e) {
-    console.error(e)
+    // isApiErrorResponse can be used to check for Neynar API errors
+    if (isApiErrorResponse(error)) {
+      console.log("API Error", error.response.data);
+    } else {
+      console.log("Generic Error", error);
+    }
   }
 }
 
@@ -96,8 +63,12 @@ export default function HomeHeader(props) {
 
   async function retrieveCast() {
     console.log(fields.castURL)
-    const cast = await getCast(fields.castURL);
-    props.setCast(cast.text);
+    const [fid, castHash, castAdd] = await getCastByURL(fields.castURL);
+    console.log('fid, castHash, castAdd', fid, castHash, castAdd)
+    props.setCast(castAdd.cast.text);
+    console.log('before set', fid, castHash)
+    props.setCastFID(fid)
+    props.setCastHash(castHash)
   }
 
   return (

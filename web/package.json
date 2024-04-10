@@ -22,6 +22,7 @@
     "@coinbase/wallet-sdk": "^3.9.1",
     "@ethsign/sp-sdk": "^0.3.14",
     "@farcaster/hub-nodejs": "^0.11.8",
+    "@neynar/nodejs-sdk": "^1.16.1",
     "@noble/hashes": "^1.4.0",
     "@privy-io/react-auth": "^1.56.2",
     "@radix-ui/react-dropdown-menu": "^2.0.6",

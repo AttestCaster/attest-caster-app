@@ -16,7 +16,7 @@ export async function createAttestationForCast(castHash, authorFID, attesterFID,
         account: privateKeyToAccount(privateKey), // optional
     });
     const res = await client.createAttestation({
-        schemaId: process.env.SIGN_PROTOCOL_SCHEMA_ID_FARCASTER, // 
+        schemaId: process.env.NEXT_PUBLIC_SIGN_PROTOCOL_SCHEMA_ID_FARCASTER, // 
         data: { castHash, authorFID, attesterFID, attesterComment, signature },
         indexingValue: "xxx", //Todo:: handle this
     });
