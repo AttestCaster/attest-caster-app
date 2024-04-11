@@ -14,10 +14,6 @@ import styles from './Home.module.css';
 import InputText from './InputText';
 import Label from './Label';
 
-
-// const codeStep1 = `\`\`\`bash
-// $ npx @coinbase/build-onchain-apps@latest create`;
-
 const initFields = {
   castURL: '',
 };
@@ -25,15 +21,6 @@ const initFields = {
 type Fields = {
   castURL: string;
 };
-
-
-// Todo:: finish this function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const passeURLParams = (url: string) => {
-  const name = 'n'
-  const shortHash = '0x70047321'
-  return [name, shortHash]
-}
 
 // API can be used: https://docs.neynar.com/reference/cast
 const getCastByURL = async (url: string) => {
