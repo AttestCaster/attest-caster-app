@@ -68,8 +68,11 @@ export default function HomeHeader(props: any) {
     console.log(fields.castURL)
     const [fid, castHash, castAdd] = await getCastByURL(fields.castURL);
     console.log('fid, castHash, castAdd', fid, castHash, castAdd)
-    props.setCast(`${castAdd}.cast.text`);
-    console.log('before set', fid, castHash)
+    if (typeof castAdd === 'object') {
+      props.setCast(castAdd.cast.text);
+    } else {
+      props.setCast(castAdd);
+    }
     props.setCastFID(fid)
     props.setCastHash(castHash)
   }
