@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import axios from 'axios';
+import { NeynarAPIClient, isApiErrorResponse, CastParamType } from "@neynar/nodejs-sdk";
 import { clsx } from 'clsx';
 import Button from '@/components/Button/Button';
 
@@ -11,7 +13,6 @@ import useFields from '../_hooks/useFields';
 import styles from './Home.module.css';
 import InputText from './InputText';
 import Label from './Label';
-import { NeynarAPIClient, isApiErrorResponse, CastParamType } from "@neynar/nodejs-sdk";
 
 
 // const codeStep1 = `\`\`\`bash
@@ -54,10 +55,12 @@ const getCastByURL = async (url: string) => {
     } else {
       console.log("Generic Error", error);
     }
+    return []
   }
 }
 
-export default function HomeHeader(props) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function HomeHeader(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { fields, setField, resetFields } = useFields<Fields>(initFields);
 
@@ -65,7 +68,7 @@ export default function HomeHeader(props) {
     console.log(fields.castURL)
     const [fid, castHash, castAdd] = await getCastByURL(fields.castURL);
     console.log('fid, castHash, castAdd', fid, castHash, castAdd)
-    props.setCast(castAdd.cast.text);
+    props.setCast(`${castAdd}.cast.text`);
     console.log('before set', fid, castHash)
     props.setCastFID(fid)
     props.setCastHash(castHash)
