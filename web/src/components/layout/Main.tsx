@@ -13,7 +13,6 @@ import {
   OffChainRpc,
 } from "@ethsign/sp-sdk";
 import InputText from 'app/home/_components/InputText';
-// import { clsx } from 'clsx';
 import Button from "../Button/Button";
 
 
@@ -44,7 +43,7 @@ export default function Main(props: any) {
         authorFID: props.castFID,
         attesterFID: 0,
         attesterComment: comment,
-        signature: 'test signature'
+        signature: 'test signature' // Todo:  check signature
       }
       console.log('props', props)
       console.log('attest data', data)
