@@ -23,3 +23,15 @@ export async function createAttestationForCast(castHash, authorFID, attesterFID,
     console.log('[createAttestationForCast]', castHash, authorFID, attesterComment, signature)
     return res;
 }
+
+export async function retrieveAttestation(id) {
+    const client = new SignProtocolClient(SpMode.OffChain, {
+        signType: OffChainSignType.EvmEip712,
+        rpcUrl: OffChainRpc.testnet,
+        account: privateKeyToAccount(privateKey), // optional
+    });
+
+    const res = await client.getAttestation(id);
+    console.log('[attestation]', res);
+    return res;
+}
