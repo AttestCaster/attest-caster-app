@@ -1,4 +1,6 @@
-# AttestCaster
+# AttestCaster App
+
+This repo is the front end of AttestCaster App.
 
 AttestCaster is a simple solution for issuing and managing attestations in the form of a client application for Farcaster, the leading decentralised social network protocol in the world.
 
@@ -18,13 +20,17 @@ NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=ADD_WALLET_CONNECT_PROJECT_ID_HERE
 ```
 
 
-#### Step 2: copy `./web/.env.local.example ./web/.env.local` and fill out the following parameters
+#### Step 2: run `cp ./web/.env.local.example ./web/.env.local` and fill out the following parameters
 ```
 # The bot to sign attestation, any ETH accounts
 SIGN_BOT_PRIVATE_KEY=
 # This bot is used to post attestations on Farcaster, FID and Key should match
 FARCASTER_BOT_FID=
 FARCASTER_BOT_PRIVATE_KEY=
+# Schema Id from Sign Protocol
+NEXT_PUBLIC_SIGN_PROTOCOL_SCHEMA_ID_FARCASTER=
+# Neynar API Key
+NEXT_PUBLIC_REACT_NEYNAR_API_KEY=
 ```
 
 #### Step 3: Install and Run your onchain app

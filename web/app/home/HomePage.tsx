@@ -6,6 +6,7 @@ import Footer from '@/components/layout/footer/Footer';
 import Main from '@/components/layout/Main';
 import HomeHeader from './_components/HomeHeader';
 // import WhyUseIt from './_components/WhyUseIt';
+import Attest from './Attest';
 
 
 /**
@@ -22,7 +23,9 @@ export default function HomePage() {
   return (
     <>
       <HomeHeader setCast={setCast} setCastFID={setCastFID} setCastHash={setCastHash} />
-      <Main cast={cast} castFID={castFID} castHash={castHash} account={account} />
+      <Main>
+        <Attest cast={cast} castFID={castFID} castHash={castHash} account={account} />
+      </Main>
       <Footer />
     </>
   );
