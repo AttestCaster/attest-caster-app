@@ -12,8 +12,9 @@ import {
     OffChainSignType,
     OffChainRpc,
 } from "@ethsign/sp-sdk";
-import Button from '@/components/Button/Button';
 import InputText from 'app/home/_components/InputText';
+import { useAccount } from 'wagmi';
+import Button from '@/components/Button/Button';
 
 export default function Main(props: any) {
 
@@ -22,8 +23,14 @@ export default function Main(props: any) {
     const [attestResult, setAttestResult] = useState('');
     const [hiddenResult, setHiddenResult] = useState(true);
     const [error, setError] = useState(''); // State for holding error messages
+    const { isConnected, address } = useAccount();
+
 
     const attest = useCallback(async () => {
+        if (!isConnected || !address) {
+            setError('Please connect to the wallet first')
+            return
+        }
         setDisabled(true);
         setError(''); // Clear previous errors
         const client = new SignProtocolClient(SpMode.OffChain, {
@@ -62,7 +69,7 @@ export default function Main(props: any) {
             console.error(e)
             // return
         }
-    }, [props, comment])
+    }, [isConnected, address, props, comment])
 
     const updateComment = (event: any) => {
         setComment(event.target.value);
@@ -71,6 +78,7 @@ export default function Main(props: any) {
     if (!props.cast) {
         return null;
     }
+    
     // console.log(props.cast);
     return (<div className="container mx-auto flex flex-col gap-8 px-8 py-6">
         <p>{props.cast}</p>

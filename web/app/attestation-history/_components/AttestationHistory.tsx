@@ -17,19 +17,18 @@ export default function AttestationHistory({ historyRows }: Props) {
     
   const tdClass = clsx([
     'border border-slate-300',
-    'p-2  text-base'
+    'p-2  text-sm'
   ])
 
   if (historyRows.length !== 0) {
     for (const row of historyRows) {
-      console.log('row', row)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
       const data = JSON.parse(row.data)
       
       rows.push((<tr>
         <td className={tdClass}>
           <a href={`${process.env.NEXT_PUBLIC_SIGN_SCAN_URL}/attestation/${row.id}`} target="_blank" >
-            {row.id}
+            <code className="text-sm">{row.id}</code>
           </a>
         </td>
         <td className={tdClass}>{new Date(row.attestTimestamp as unknown as number * 1).toUTCString()}</td>
@@ -37,7 +36,9 @@ export default function AttestationHistory({ historyRows }: Props) {
         {/* <td className={tdClass}>{row.attester}</td> */}
         {/* <td className={tdClass}>{data.attesterFID}</td> */}
         <td className={tdClass}>{data.attesterComment}</td>
-        <td className={tdClass}><code>{data.castHash}</code></td>
+        <td className={tdClass}>
+          <code className="text-sm">{data.castHash}</code>
+        </td>
         <td className={tdClass}>{data.authorFID}</td>
       </tr>))
     }
@@ -78,16 +79,6 @@ export default function AttestationHistory({ historyRows }: Props) {
           </table>
         </div>
       </section>
-      {/* <aside>
-        <div
-          className={clsx([
-            'mt-10 rounded-lg border border-solid border-boat-color-palette-line',
-            'bg-boat-color-palette-backgroundalternate p-10 md:mt-0',
-          ])}
-        >
-          <FormBuyCoffee refetchMemos={refetchMemos} />
-        </div>
-      </aside> */}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useEffect, useCallback, useState } from 'react';
 import {
   IndexService
 } from "@ethsign/sp-sdk";
+import { useAccount } from 'wagmi';
 import Banner from '@/components/layout/banner/banner';
 import Footer from '@/components/layout/footer/Footer';
 import Header from '@/components/layout/header/Header';
@@ -28,7 +29,8 @@ export type HistoryRecord = {
 export default function AttestationHistoryPage() {
   const [isMounted, setIsMounted] = useState(false);
   const [historyRows, setHistoryRows] = useState<HistoryRecord[]>([]);
-  // const [formRefresh, setFormRefresh] = useState();
+  const { address, isConnected } = useAccount();
+
 
   const getHistory = useCallback(async () => {
     // const client = new SignProtocolClient(SpMode.OffChain, {
@@ -38,15 +40,16 @@ export default function AttestationHistoryPage() {
     //   // account: props.account
     //   // account: privateKeyToAccount(privateKey), // optional
     // });
+    if (!address) return
+
     const indexService = new IndexService("testnet");
 
     const schemaId = `${process.env.NEXT_PUBLIC_SIGN_PROTOCOL_SCHEMA_ID_FARCASTER}`
-    console.log('schemaId', schemaId)
     try {
       const page = 1
       const result = await indexService.queryAttestationList({
         schemaId,
-        attester: '0x47F7EA0dd4418AA1cec00786F5C47623aC37bA42',
+        attester: address,
         page,
       })
       console.log('query result', result)
@@ -59,7 +62,7 @@ export default function AttestationHistoryPage() {
       console.error(e)
     }
     // return result
-  }, [])
+  }, [address])
   
   useEffect(() => {
     setIsMounted(true);
@@ -71,6 +74,10 @@ export default function AttestationHistoryPage() {
   if (!isMounted) {
     return null;
   }
+
+  // if (!isConnected || !address) {
+  //   setError('Please connect to the wallet');
+  // }
 
   // const getHistory = async () => {
   //   const signScanAPI = 'https://testnet-rpc.sign.global/api'
@@ -89,15 +96,14 @@ export default function AttestationHistoryPage() {
   //   }
 
   // }
-
-  
-
   return (
     <>
       <Header />
       <Main>
         <Banner pageName="Attestation" pageUrl="attestation-history" />
         <AttestationHistory historyRows={historyRows} />
+        
+        {!isConnected && !address && <p className="text-red-100">Please connect to the wallet</p>} {/* Display error messages */}
       </Main>
       <Footer />
     </>
