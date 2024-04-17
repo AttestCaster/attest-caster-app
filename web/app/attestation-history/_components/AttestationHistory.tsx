@@ -1,6 +1,13 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { clsx } from 'clsx';
+import { HistoryRecord } from '../page'
 
-export default function AttestationHistory({historyRows = []}) {
+type Props = {
+  // any props that come into the component
+  historyRows: HistoryRecord[]
+}
+
+export default function AttestationHistory({ historyRows }: Props) {
   console.log('historyRows', historyRows)
   // const { memos, refetchMemos } = useOnchainCoffeeMemos();
 
@@ -8,36 +15,38 @@ export default function AttestationHistory({historyRows = []}) {
     return <></>
   }
   const rows = []
-  console.log('process.env.SIGN_SCAN_URL', process.env.SIGN_SCAN_URL)
-  console.log('historyRows.length', historyRows, historyRows)
+    
+  const tdClass = clsx([
+    'border border-slate-300',
+    'p-2'
+  ])
+
   if (historyRows.length !== 0) {
     for (const row of historyRows) {
       console.log('row', row)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
       const data = JSON.parse(row.data)
-      const tdClass = clsx([
-        'rounded-lg border border-solid border-boat-color-palette-line',
-        'p-1'
-      ])
-      rows.push(<tr className="rounded-lg border border-solid border-boat-color-palette-line">
+      
+      rows.push((<tr>
         <td className={tdClass}>
           <a href={`${process.env.NEXT_PUBLIC_SIGN_SCAN_URL}/attestation/${row.id}`} target="_blank" >
             {row.id}
           </a>
         </td>
-        <td className={tdClass}>{new Date(row.attestTimestamp * 1).toUTCString()}</td>
+        <td className={tdClass}>{new Date(row.attestTimestamp as unknown as number * 1).toUTCString()}</td>
         {/* <td className={tdClass}>{row.schemaId}</td> */}
         {/* <td className={tdClass}>{row.attester}</td> */}
         <td className={tdClass}>{data.castHash}</td>
         <td className={tdClass}>{data.authorFID}</td>
-      </tr>)
+      </tr>))
     }
   }
   return (
     <div
       className={clsx([
         'grid grid-cols-1 items-stretch justify-start',
-        'md:grid-cols-2CoffeeMd md:gap-9 lg:grid-cols-2CoffeeLg',
+        'gap-9 grid-cols-1'
+        // 'md:grid-cols-2CoffeeMd md:gap-9 lg:grid-cols-2CoffeeMd',
       ])}
     >
       <section
@@ -46,20 +55,20 @@ export default function AttestationHistory({historyRows = []}) {
           'bg-boat-color-palette-backgroundalternate p-10',
         ])}
       >
-        <h2 className="mb-5 w-fit text-2xl font-semibold text-white">Attestation History</h2>
+        <h2 className="mb-5 w-fit text-2xl font-semibold text-white">My Attestation History</h2>
 
         {/* {memos?.length > 0 && <Memos memos={memos} />} */}
         
-        <div className="gap-16 lg:flex">
-          <table id='attestation-history' className="rounded-lg border w-full">
+        <div className="gap-16">
+          <table id='attestation-history' className="table-auto border-collaps">
             <thead>
               <tr>
-                <th>Attestation ID</th>
-                <th>Attest Time</th>
+                <th className={tdClass}>Attestation ID</th>
+                <th className={tdClass}>Attest Time</th>
                 {/* <th>SchemaId</th> */}
                 {/* <th>Attester</th> */}
-                <th>Cast Hash</th>
-                <th>Cast Author</th>
+                <th className={tdClass}>Cast Hash</th>
+                <th className={tdClass}>Cast Author</th>
               </tr>
             </thead>
             <tbody>

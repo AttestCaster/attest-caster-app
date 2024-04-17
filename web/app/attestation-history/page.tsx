@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 'use client';
 
@@ -13,15 +12,23 @@ import Header from '@/components/layout/header/Header';
 import Main from '@/components/layout/Main';
 import AttestationHistory from './_components/AttestationHistory';
 
+export type HistoryRecord = {
+  attestTimestamp: string,
+  attestationId: string,
+  attester: string,
+  chainId: string,
+  data: string,
+  id: string
+}
+
 /**
  * Use the page component to wrap the components
  * that you want to render on the page.
  */
 export default function AttestationHistoryPage() {
   const [isMounted, setIsMounted] = useState(false);
-  const [history, setHistory] = useState([]);
+  const [historyRows, setHistoryRows] = useState<HistoryRecord[]>([]);
   // const [formRefresh, setFormRefresh] = useState();
-
 
   const getHistory = useCallback(async () => {
     // const client = new SignProtocolClient(SpMode.OffChain, {
@@ -43,8 +50,11 @@ export default function AttestationHistoryPage() {
         page,
       })
       console.log('query result', result)
+      // const records: HistoryRecord[] = result.rows
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      setHistory(result.rows)
+      if (result.rows) {
+        setHistoryRows(result.rows)
+      }
     } catch (e) {
       console.error(e)
     }
@@ -87,10 +97,7 @@ export default function AttestationHistoryPage() {
       <Header />
       <Main>
         <Banner pageName="Attestation" pageUrl="attestation-history" />
-        {/* <BuyMeCoffeeContractDemo />
-        <Guide /> */}
-        <AttestationHistory historyRows={history} />
-        {console.log('refresh history', history)}
+        <AttestationHistory historyRows={historyRows} />
       </Main>
       <Footer />
     </>
