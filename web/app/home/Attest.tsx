@@ -14,8 +14,6 @@ import {
 } from "@ethsign/sp-sdk";
 import Button from '@/components/Button/Button';
 import InputText from 'app/home/_components/InputText';
-// import Button from 'src/components/Button/Button";
-
 
 export default function Main(props: any) {
 
