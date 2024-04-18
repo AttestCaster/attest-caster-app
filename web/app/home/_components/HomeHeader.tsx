@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -9,18 +10,9 @@ import Button from '@/components/Button/Button';
 
 // import CodeBlock from '@/components/code-block/CodeBlock';
 import Header from '@/components/layout/header/Header';
-import useFields from '../_hooks/useFields';
 import styles from './Home.module.css';
 import InputText from './InputText';
 import Label from './Label';
-
-const initFields = {
-  castURL: '',
-};
-
-type Fields = {
-  castURL: string;
-};
 
 // API can be used: https://docs.neynar.com/reference/cast
 const getCastByURL = async (url: string) => {
@@ -49,11 +41,10 @@ const getCastByURL = async (url: string) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function HomeHeader(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { fields, setField, resetFields } = useFields<Fields>(initFields);
 
   async function retrieveCast() {
-    console.log(fields.castURL)
-    const [fid, castHash, castAdd] = await getCastByURL(fields.castURL);
+    console.log(props.castURL)
+    const [fid, castHash, castAdd] = await getCastByURL(props.castURL);
     console.log('fid, castHash, castAdd', fid, castHash, castAdd)
     if (typeof castAdd === 'object') {
       props.setCast(castAdd.cast.text);
@@ -89,7 +80,7 @@ export default function HomeHeader(props: any) {
               id="castURL"
               placeholder="Cast URL"
               // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
-              onChange={(evt) => setField('castURL', evt.target.value)}
+              onChange={(evt) => props.setCastURL(evt.target.value)}
               disabled={false}
               required
             />

@@ -19,12 +19,19 @@ import Button from '@/components/Button/Button';
 export default function Main(props: any) {
 
     const [comment, setComment] = useState("");
+    const [isFactCheck, setIsFactCheck] = useState(false);
+
+    const [reference1, setReference1] = useState("");
+    const [reference2, setReference2] = useState("");
+    const [reference3, setReference3] = useState("");
+    const [reference4, setReference4] = useState("");
+
+
     const [disabled, setDisabled] = useState(false);
     const [attestResult, setAttestResult] = useState('');
     const [hiddenResult, setHiddenResult] = useState(true);
     const [error, setError] = useState(''); // State for holding error messages
     const { isConnected, address } = useAccount();
-
 
     const attest = useCallback(async () => {
         if (!isConnected || !address) {
@@ -45,11 +52,16 @@ export default function Main(props: any) {
         console.log('process env', process.env)
         try {
             const data = {
+                castURL: props.castURL,
                 castHash: props.castHash,
-                authorFID: props.castFID,
+                castAuthorFID: props.castFID,
                 attesterFID: 0,
-                attesterComment: comment,
-                signature: 'test signature' // Todo:  check signature
+                isFactCheck, // bool
+                context: comment,
+                reference1,
+                reference2,
+                reference3,
+                reference4
             }
             console.log('props', props)
             console.log('attest data', data)
@@ -69,7 +81,7 @@ export default function Main(props: any) {
             console.error(e)
             // return
         }
-    }, [isConnected, address, props, comment])
+    }, [isConnected, address, props, isFactCheck, comment, reference1, reference2, reference3, reference4])
 
     const updateComment = (event: any) => {
         setComment(event.target.value);
