@@ -1,6 +1,5 @@
 import { getFrameMetadata } from '@coinbase/onchainkit/frame';
 import type { Metadata, ResolvingMetadata } from 'next';
-import HomePage from '../../../../home/HomePage';
 
 const ATTESTATION_CASTER_URL = 'http://localhost:3000';
 // 'https://test-frames-eosin.vercel.app/' // TODO: change to actual address

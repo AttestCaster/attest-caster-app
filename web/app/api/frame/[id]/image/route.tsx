@@ -1,33 +1,52 @@
-import { NextRequest, NextResponse } from 'next/server';
-import sharp from 'sharp';
-import {
-    SignProtocolClient,
-    SpMode,
-    OffChainSignType,
-    OffChainRpc,
-} from "@ethsign/sp-sdk";
-import satori from "satori";
-import { join } from 'path';
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import * as fs from "fs";
-import { retrieveAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
-import { getCast } from 'app/api/farcaster/cast/_utils/hub';
+import { join } from 'path';
 import { getFnameByFid } from 'app/api/farcaster/cast/_utils/fname';
+import { getCast } from 'app/api/farcaster/cast/_utils/hub';
+import { getAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
+import { NextRequest, NextResponse } from 'next/server';
+import satori from "satori";
+import sharp from 'sharp';
 
 const fontPath = join(process.cwd(), 'Roboto-Regular.ttf')
 let fontData = fs.readFileSync(fontPath)
 
+
+type Data = {
+    castHash: string,
+    authorFID: number,
+    attesterFID: number,
+    attesterComment: string,
+    signature: string,
+}
+
+export type AttestationResponse = {
+    attestTimestamp: string,
+    attestationId: string,
+    attester: string,
+    chainId: string,
+    data: string,
+    id: string
+}
+
 export async function GET(req: NextRequest, { params }: { params: { id: string } }): Promise<Response> {
     try {
-        const id = params.id;
+        const id: string = params.id;
         console.log(id);
-        // TODO: replace the example attestation data with function call to retrieveAttestation
-        // const attestation=await retrieveAttestation(id);
+        // TODO: replace the example attestation data with function call to getAttestation
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const attestation: AttestationResponse = await getAttestation(id);
+        // console.log('attestation', attestation)
+        const data: Data = JSON.parse(attestation.data)
+        // console.log('data', data)
         const attestation_data = {
-            "castHash": "0x3fafd1be7be954aa33a2aad5877d02e5e9d3c82d",
-            "authorFID": 10692,
-            "attesterFID": 10692,
-            "attesterComment": "This is the test attestation",
-            "signature": "0xFFFFFFFF"
+            castHash: data.castHash,
+            authorFID: data.authorFID,
+            attesterFID: data.attesterFID,
+            attesterComment: data.attesterComment,
+            signature: data.signature,
         };
         const cast = (await getCast(attestation_data.authorFID, attestation_data.castHash)).data.castAddBody.text;
         const author = (await getFnameByFid(attestation_data.authorFID)).transfers[0].username;
