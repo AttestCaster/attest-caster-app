@@ -1,21 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { getFrameHtmlResponse } from '@coinbase/onchainkit/frame';
+import { getFnameByFid } from 'app/api/farcaster/cast/_utils/fname';
+import { getCast } from 'app/api/farcaster/cast/_utils/hub';
+import { getAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
 import { NextResponse } from 'next/server';
 import { AttestationData, AttestationResponse } from './[page]/image/route';
-import { getAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
-import { getCast } from 'app/api/farcaster/cast/_utils/hub';
-import { getFnameByFid } from 'app/api/farcaster/cast/_utils/fname';
 
-const ATTESTATION_CASTER_URL = 'http://localhost:3000';
+const ATTESTATION_CASTER_URL = process.env.NEXT_PUBLIC_WEBSITE_URL;
 const WARPCAST_URL = 'https://warpcast.com';
 const SIGN_SCAN_URL = 'https://testnet-scan.sign.global/attestation';
 
 export async function getFrame0(id: string) {
   const attestation: AttestationResponse = await getAttestation(id);
-  const attestation_data: AttestationData = JSON.parse(attestation.data);
-  const cast = (await getCast(attestation_data.authorFID, attestation_data.castHash)).data
-    .castAddBody.text;
-  const author = (await getFnameByFid(attestation_data.authorFID)).transfers[0].username;
-  const attester = (await getFnameByFid(attestation_data.attesterFID)).transfers[0].username;
+  const attestationData: AttestationData = JSON.parse(attestation.data);
+  const cast = (await getCast(attestationData.authorFID, attestationData.castHash)).data.castAddBody.text;
+  const author = (await getFnameByFid(attestationData.authorFID)).transfers[0].username;
+  const attester = (await getFnameByFid(attestationData.attesterFID)).transfers[0].username;
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -32,7 +33,7 @@ export async function getFrame0(id: string) {
         {
           label: 'Original Cast',
           action: 'link',
-          target: WARPCAST_URL + `/${author}/${attestation_data.castHash}`,
+          target: WARPCAST_URL + `/${author}/${attestationData.castHash}`,
         },
         {
           label: 'More Info',
@@ -50,7 +51,7 @@ export async function getFrame0(id: string) {
 
 export async function getFrame1(id: string) {
   const attestation: AttestationResponse = await getAttestation(id);
-  const attestation_data: AttestationData = JSON.parse(attestation.data);
+  const attestationData: AttestationData = JSON.parse(attestation.data);
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -85,7 +86,7 @@ export async function getFrame1(id: string) {
 
 export async function getFrame2(id: string) {
   const attestation: AttestationResponse = await getAttestation(id);
-  const attestation_data: AttestationData = JSON.parse(attestation.data);
+  const attestationData: AttestationData = JSON.parse(attestation.data);
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -116,7 +117,7 @@ export async function getFrame2(id: string) {
 
 export async function getFrame3(id: string) {
   const attestation: AttestationResponse = await getAttestation(id);
-  const attestation_data: AttestationData = JSON.parse(attestation.data);
+  const attestationData: AttestationData = JSON.parse(attestation.data);
 
   return new NextResponse(
     getFrameHtmlResponse({
