@@ -89,7 +89,10 @@ export default function Main(props: any) {
             disabled={false}
         />
         <Button buttonContent={disabled ? "Attesting" : "Attest"} onClick={() => attest()} disabled={disabled} />
-        <div hidden={hiddenResult}>Success! Attestation Result: <a target="_blank" href={"https://testnet-scan.sign.global/attestation/" + attestResult}>{attestResult}</a></div>
+        <div hidden={hiddenResult}>
+            <p>Success! Attestation Result: <a target="_blank" href={"https://testnet-scan.sign.global/attestation/" + attestResult}>{attestResult}</a></p>
+            <p>Use this link to share in Farcaster with Farcaster Frame: <a target="_blank" href={"/api/frame/" + attestResult + '/metadata'}>{"http://localhost:3000/api/frame/" + attestResult + '/metadata'}</a></p>
+        </div>
         {error && <p className="text-red-500">{error}</p>} {/* Display error messages */}
     </div>);
 }
