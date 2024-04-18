@@ -97,7 +97,31 @@ export default function Main(props: any) {
         <InputText
             id='comment_content'
             placeholder='Input comment here(optional)'
-            onChange={updateComment}
+            onChange={(evt) => { setComment(evt.target.value) }}
+            disabled={false}
+        />
+        <InputText
+            id='reference1'
+            placeholder='Input reference1 here(optional)'
+            onChange={(evt) => { setReference1(evt.target.value) }}
+            disabled={false}
+        />
+        <InputText
+            id='reference2'
+            placeholder='Input reference2 here(optional)'
+            onChange={(evt) => { setReference2(evt.target.value) }}
+            disabled={false}
+        />
+        <InputText
+            id='reference3'
+            placeholder='Input reference3 here(optional)'
+            onChange={(evt) => { setReference3(evt.target.value) }}
+            disabled={false}
+        />
+        <InputText
+            id='reference4'
+            placeholder='Input reference4 here(optional)'
+            onChange={(evt) => { setReference4(evt.target.value) }}
             disabled={false}
         />
         <Button buttonContent={disabled ? "Attesting" : "Attest"} onClick={() => attest()} disabled={disabled} />
