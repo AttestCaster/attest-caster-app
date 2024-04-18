@@ -5,7 +5,11 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { getFnameByFid } from 'app/api/farcaster/cast/_utils/fname';
 import { getCast } from 'app/api/farcaster/cast/_utils/hub';
-import { getAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
+import {
+  AttestationData,
+  AttestationResponse,
+  getAttestation,
+} from 'app/api/sign-protocol/_utils/sign-protocol';
 import { NextRequest, NextResponse } from 'next/server';
 import satori from 'satori';
 import sharp from 'sharp';
@@ -13,37 +17,18 @@ import sharp from 'sharp';
 const fontPath = join(process.cwd(), 'Roboto-Regular.ttf');
 let fontData = fs.readFileSync(fontPath);
 
-export type AttestationData = {
-  castHash: string;
-  authorFID: number;
-  attesterFID: number;
-  attesterComment: string;
-  signature: string;
-};
-
-export type AttestationResponse = {
-  attestTimestamp: string;
-  attestationId: string;
-  attester: string;
-  chainId: string;
-  data: string;
-  id: string;
-};
-
 async function getNode(id: string, page: number) {
   const attestation: AttestationResponse = await getAttestation(id);
   const attestation_data: AttestationData = JSON.parse(attestation.data);
 
-  const cast = (await getCast(attestation_data.authorFID, attestation_data.castHash)).data
+  const cast = (await getCast(attestation_data.castAuthorFID, attestation_data.castHash)).data
     .castAddBody.text;
-  const author = (await getFnameByFid(attestation_data.authorFID)).transfers[0].username;
+  const author = (await getFnameByFid(attestation_data.castAuthorFID)).transfers[0].username;
   const attester = (await getFnameByFid(attestation_data.attesterFID)).transfers[0].username;
 
   console.log(page, id);
   switch (page) {
     case 0:
-      const fast_check = true; // TODO
-      const context = 'This is a test attestation'; //TODO
       return (
         <div
           style={{
@@ -60,9 +45,9 @@ async function getNode(id: string, page: number) {
             textAlign: 'left',
           }}
         >
-          This cast has been cast-checked as {String(fast_check)}
+          This cast has been cast-checked as {String(attestation_data.isFactCheck)}
           <br />
-          Context for readers: {context}
+          Context for readers: {attestation_data.context}
         </div>
       );
     case 1:

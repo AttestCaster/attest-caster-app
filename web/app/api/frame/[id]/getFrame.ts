@@ -3,20 +3,25 @@
 import { getFrameHtmlResponse } from '@coinbase/onchainkit/frame';
 import { getFnameByFid } from 'app/api/farcaster/cast/_utils/fname';
 import { getCast } from 'app/api/farcaster/cast/_utils/hub';
-import { getAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
 import { NextResponse } from 'next/server';
-import { AttestationData, AttestationResponse } from './[page]/image/route';
+import {
+  AttestationData,
+  AttestationResponse,
+  getAttestation,
+} from 'app/api/sign-protocol/_utils/sign-protocol';
 
 const ATTESTATION_CASTER_URL = process.env.NEXT_PUBLIC_WEBSITE_URL as string;
 const WARPCAST_URL = 'https://warpcast.com';
-const SIGN_SCAN_URL = process.env.NEXT_PUBLIC_SIGN_SCAN_URL as string + '/attestation';
+const SIGN_SCAN_URL = (process.env.NEXT_PUBLIC_SIGN_SCAN_URL as string) + '/attestation';
 
 export async function getFrame0(id: string) {
   const attestation: AttestationResponse = await getAttestation(id);
-  const attestationData: AttestationData = JSON.parse(attestation.data);
-  const cast = (await getCast(attestationData.authorFID, attestationData.castHash)).data.castAddBody.text;
-  const author = (await getFnameByFid(attestationData.authorFID)).transfers[0].username;
-  const attester = (await getFnameByFid(attestationData.attesterFID)).transfers[0].username;
+  const attestation_data: AttestationData = JSON.parse(attestation.data);
+
+  const cast = (await getCast(attestation_data.castAuthorFID, attestation_data.castHash)).data
+    .castAddBody.text;
+  const author = (await getFnameByFid(attestation_data.castAuthorFID)).transfers[0].username;
+  const attester = (await getFnameByFid(attestation_data.attesterFID)).transfers[0].username;
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -33,7 +38,7 @@ export async function getFrame0(id: string) {
         {
           label: 'Original Cast',
           action: 'link',
-          target: WARPCAST_URL + `/${author}/${attestationData.castHash}`,
+          target: attestation_data.castURL,
         },
         {
           label: 'More Info',
@@ -59,12 +64,12 @@ export async function getFrame1(id: string) {
         {
           label: 'Reference 1',
           action: 'link',
-          target: ATTESTATION_CASTER_URL, //TODO: change target to reference 1 field
+          target: attestationData.reference1,
         },
         {
           label: 'Reference 2',
           action: 'link',
-          target: ATTESTATION_CASTER_URL, //TODO: change target to reference 2 field
+          target: attestationData.reference2,
         },
         {
           label: 'Next',
@@ -94,12 +99,12 @@ export async function getFrame2(id: string) {
         {
           label: 'Reference 3',
           action: 'link',
-          target: ATTESTATION_CASTER_URL, //TODO: change target to reference 3 field
+          target: attestationData.reference3,
         },
         {
           label: 'Reference 4',
           action: 'link',
-          target: ATTESTATION_CASTER_URL, //TODO: change target to reference 4 field
+          target: attestationData.reference4,
         },
         {
           label: 'Back',
