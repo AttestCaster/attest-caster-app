@@ -7,7 +7,7 @@ import { getAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
 import { NextResponse } from 'next/server';
 import { AttestationData, AttestationResponse } from './[page]/image/route';
 
-const ATTESTATION_CASTER_URL = process.env.NEXT_PUBLIC_WEBSITE_URL;
+const ATTESTATION_CASTER_URL = process.env.NEXT_PUBLIC_WEBSITE_URL as string;
 const WARPCAST_URL = 'https://warpcast.com';
 const SIGN_SCAN_URL = 'https://testnet-scan.sign.global/attestation';
 
