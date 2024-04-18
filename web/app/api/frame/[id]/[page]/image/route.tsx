@@ -9,7 +9,6 @@ import { getAttestation } from 'app/api/sign-protocol/_utils/sign-protocol';
 import { NextRequest, NextResponse } from 'next/server';
 import satori from 'satori';
 import sharp from 'sharp';
-import { ReactNode } from 'react';
 
 const fontPath = join(process.cwd(), 'Roboto-Regular.ttf');
 let fontData = fs.readFileSync(fontPath);
@@ -31,7 +30,7 @@ export type AttestationResponse = {
   id: string;
 };
 
-async function getNode(id: string, page: number): Promise<ReactNode> {
+async function getNode(id: string, page: number) {
   const attestation: AttestationResponse = await getAttestation(id);
   const attestation_data: AttestationData = JSON.parse(attestation.data);
 

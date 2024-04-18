@@ -9,7 +9,7 @@ import { AttestationData, AttestationResponse } from './[page]/image/route';
 
 const ATTESTATION_CASTER_URL = process.env.NEXT_PUBLIC_WEBSITE_URL as string;
 const WARPCAST_URL = 'https://warpcast.com';
-const SIGN_SCAN_URL = 'https://testnet-scan.sign.global/attestation';
+const SIGN_SCAN_URL = process.env.NEXT_PUBLIC_SIGN_SCAN_URL as string + '/attestation';
 
 export async function getFrame0(id: string) {
   const attestation: AttestationResponse = await getAttestation(id);
