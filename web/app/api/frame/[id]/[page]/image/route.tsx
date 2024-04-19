@@ -43,77 +43,110 @@ async function getNode(id: string, page: number) {
       return (
         <div
           style={{
-            justifyContent: 'flex-start',
-            alignItems: 'center',
+            justifyContent: 'center',
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
             height: '100%',
-            // backgroundColor: 'f4f4f4',
+            backgroundColor: 'white',
             padding: 50,
             lineHeight: 1.2,
             fontSize: 24,
-            textAlign: 'left',
+            textAlign: 'justify',
+            color: 'grey',
           }}
         >
-          This cast has been cast-checked as {String(attestation_data.isFactCheck)}
-          <br />
-          Context for readers: {attestation_data.context}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <span>@{author}</span>
+            <span>{attestation_data.castHash.substring(0, 10)}</span>
+          </div>
+          <p
+            style={{
+              border: '1px solid',
+              padding: 10,
+              borderRadius: 10,
+              textAlign: 'justify',
+              width: '100%',
+            }}
+          >
+            {cast}
+          </p>
+          <hr style={{ width: '90%', border: '1px solid' }}></hr>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <span style={{ color: 'black' }}>@{attester}</span>
+            <span style={{ fontWeight: 'bold', color: 'black' }}>
+              {String(attestation_data.isFactCheck).toUpperCase()}
+            </span>
+          </div>
+          <p
+            style={{
+              color: 'black',
+              border: '1px solid black',
+              padding: 10,
+              borderRadius: 10,
+              textAlign: 'justify',
+              width: '100%',
+            }}
+          >
+            {attestation_data.context}
+          </p>
         </div>
       );
     case 1:
+    case 2:
       const ref_diaplay_1 =
         (await getTitle(attestation_data.reference1)) || attestation_data.reference1;
       const ref_diaplay_2 =
         (await getTitle(attestation_data.reference2)) || attestation_data.reference2;
-      return (
-        <div
-          style={{
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            height: '100%',
-            // backgroundColor: 'f4f4f4',
-            padding: 50,
-            lineHeight: 1.2,
-            fontSize: 24,
-            textAlign: 'left',
-          }}
-        >
-          References have been provided to support this Cast-Check:
-          <ul style={{ display: 'flex', flexDirection: 'column' }}>
-            <li>{ref_diaplay_1}</li>
-            <li>{ref_diaplay_2}</li>
-          </ul>
-        </div>
-      );
-    case 2:
       const ref_diaplay_3 =
         (await getTitle(attestation_data.reference3)) || attestation_data.reference3;
       const ref_diaplay_4 =
         (await getTitle(attestation_data.reference4)) || attestation_data.reference4;
+
       return (
         <div
           style={{
-            justifyContent: 'flex-start',
-            alignItems: 'center',
+            justifyContent: 'center',
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
             height: '100%',
-            // backgroundColor: 'f4f4f4',
+            backgroundColor: 'white',
             padding: 50,
             lineHeight: 1.2,
             fontSize: 24,
-            textAlign: 'left',
+            textAlign: 'justify',
           }}
         >
-          <ul style={{ display: 'flex', flexDirection: 'column' }}>
-            <li>{ref_diaplay_3}</li>
-            <li>{ref_diaplay_4}</li>
-          </ul>
+          References have been provided to support this Cast-Check:
+          <ol
+            type="1"
+            style={{
+              flexDirection: 'column',
+              border: '1px solid grey',
+              borderRadius: 10,
+              padding: '10px',
+              marginTop: '10px',
+              width: '100%',
+            }}
+          >
+            <li style={{ marginBottom: '5px' }}>1. {ref_diaplay_1}</li>
+            <li style={{ marginBottom: '5px' }}>2. {ref_diaplay_2}</li>
+            <li style={{ marginBottom: '5px' }}>3. {ref_diaplay_3}</li>
+            <li>4. {ref_diaplay_4}</li>
+          </ol>
         </div>
       );
     default:
@@ -121,24 +154,23 @@ async function getNode(id: string, page: number) {
       return (
         <div
           style={{
-            justifyContent: 'flex-start',
-            alignItems: 'center',
+            justifyContent: 'center',
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
             height: '100%',
-            // backgroundColor: 'f4f4f4',
+            backgroundColor: 'white',
             padding: 50,
             lineHeight: 1.2,
             fontSize: 24,
-            textAlign: 'left',
+            textAlign: 'justify',
           }}
         >
-          This cast-check is an attestation issued on Sign Protocol using AttestCaster
-          <br />
-          AttestCaster is a Farcaster x Sign Protocol client built by {team_names}
-          <br />
-          Click Attestation Info for more details.
+          <span>This cast-check is an attestation issued on Sign Protocol using AttestCaster</span>
+          <hr style={{ width: '90%', border: '1px solid grey' }}></hr>
+          <span>AttestCaster is a Farcaster x Sign Protocol client built by {team_names}</span>
+          <hr style={{ width: '90%', border: '1px solid grey' }}></hr>
+          <span>Click Attestation Info for more details</span>
         </div>
       );
   }
