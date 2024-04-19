@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 // import { getChainsForEnvironment } from '@/store/supportedChains';
 // import * as hub from './_utils/hub.js'
-import * as signProtocol from '../_utils/sign-protocol.js'
+import * as signProtocol from '../_utils/sign-protocol'
 
 /**
  * Handler for the /api/sign-protocol/ar route

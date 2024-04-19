@@ -17,6 +17,18 @@ import sharp from 'sharp';
 const fontPath = join(process.cwd(), 'Roboto-Regular.ttf');
 let fontData = fs.readFileSync(fontPath);
 
+const urlMetadata = require('url-metadata');
+
+async function getTitle(url: string) {
+  try {
+    const metadata = await urlMetadata(url);
+    return metadata['title'] || metadata['og:title'];
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
+
 async function getNode(id: string, page: number) {
   const attestation: AttestationResponse = await getAttestation(id);
   const attestation_data: AttestationData = JSON.parse(attestation.data);
@@ -26,7 +38,6 @@ async function getNode(id: string, page: number) {
   const author = (await getFnameByFid(attestation_data.castAuthorFID)).transfers[0].username;
   const attester = (await getFnameByFid(attestation_data.attesterFID)).transfers[0].username;
 
-  console.log(page, id);
   switch (page) {
     case 0:
       return (
@@ -51,8 +62,10 @@ async function getNode(id: string, page: number) {
         </div>
       );
     case 1:
-
-    case 2:
+      const ref_diaplay_1 =
+        (await getTitle(attestation_data.reference1)) || attestation_data.reference1;
+      const ref_diaplay_2 =
+        (await getTitle(attestation_data.reference2)) || attestation_data.reference2;
       return (
         <div
           style={{
@@ -69,7 +82,38 @@ async function getNode(id: string, page: number) {
             textAlign: 'left',
           }}
         >
-          References have been provided to support this Cast-Check
+          References have been provided to support this Cast-Check:
+          <ul style={{ display: 'flex', flexDirection: 'column' }}>
+            <li>{ref_diaplay_1}</li>
+            <li>{ref_diaplay_2}</li>
+          </ul>
+        </div>
+      );
+    case 2:
+      const ref_diaplay_3 =
+        (await getTitle(attestation_data.reference3)) || attestation_data.reference3;
+      const ref_diaplay_4 =
+        (await getTitle(attestation_data.reference4)) || attestation_data.reference4;
+      return (
+        <div
+          style={{
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            height: '100%',
+            // backgroundColor: 'f4f4f4',
+            padding: 50,
+            lineHeight: 1.2,
+            fontSize: 24,
+            textAlign: 'left',
+          }}
+        >
+          <ul style={{ display: 'flex', flexDirection: 'column' }}>
+            <li>{ref_diaplay_3}</li>
+            <li>{ref_diaplay_4}</li>
+          </ul>
         </div>
       );
     default:

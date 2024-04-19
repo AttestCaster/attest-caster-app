@@ -136,6 +136,11 @@ export async function getFrame3(id: string) {
           action: 'link',
           target: SIGN_SCAN_URL + '/' + id,
         },
+        {
+          label: 'AttestCaster',
+          action: 'link',
+          target: ATTESTATION_CASTER_URL,
+        },
       ],
       image: {
         src: ATTESTATION_CASTER_URL + `/api/frame/${id}/3/image`,
