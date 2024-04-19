@@ -33,22 +33,27 @@ export type AttestationData = {
   };
 
 export async function createAttestationForCast(
+  castURL: string,
   castHash: string,
-  authorFID: number,
+  castAuthorFID: number,
   attesterFID: number,
   attesterComment: string,
-  signature: string,
+  isFactCheck: boolean,
+  reference1: string,
+  reference2: string,
+  reference3: string,
+  reference4: string,
 ) {
   const client = new SignProtocolClient(SpMode.OffChain, {
     signType: OffChainSignType.EvmEip712,
     rpcUrl: OffChainRpc.testnet,
   });
   const res = await client.createAttestation({
-    schemaId: process.env.NEXT_PUBLIC_SIGN_PROTOCOL_SCHEMA_ID_FARCASTER, //
-    data: { castHash, authorFID, attesterFID, attesterComment, signature },
+    schemaId: process.env.NEXT_PUBLIC_SIGN_PROTOCOL_SCHEMA_ID_FARCASTER as string, //
+    data: { castURL, castHash, castAuthorFID, attesterFID, attesterComment, isFactCheck, reference1, reference2, reference3, reference4 },
     indexingValue: 'xxx', //Todo:: handle this
   });
-  console.log('[createAttestationForCast]', castHash, authorFID, attesterComment, signature);
+  console.log('[createAttestationForCast]', castURL, castHash, castAuthorFID, attesterFID, attesterComment, isFactCheck, reference1, reference2, reference3, reference4 );
   return res;
 }
 

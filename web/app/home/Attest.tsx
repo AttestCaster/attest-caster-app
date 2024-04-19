@@ -12,6 +12,7 @@ import {
     OffChainSignType,
     OffChainRpc,
 } from "@ethsign/sp-sdk";
+import InputCheckbox from 'app/home/_components/InputCheckbox';
 import InputText from 'app/home/_components/InputText';
 import { useAccount } from 'wagmi';
 import Button from '@/components/Button/Button';
@@ -83,15 +84,12 @@ export default function Main(props: any) {
         }
     }, [isConnected, address, props, isFactCheck, comment, reference1, reference2, reference3, reference4])
 
-    const updateComment = (event: any) => {
-        setComment(event.target.value);
-    }
-
     if (!props.cast) {
         return null;
     }
     
     // console.log(props.cast);
+    // Todo:: validate the value
     return (<div className="container mx-auto flex flex-col gap-8 px-8 py-6">
         <p>{props.cast}</p>
         <InputText
@@ -99,6 +97,13 @@ export default function Main(props: any) {
             placeholder='Input comment here(optional)'
             onChange={(evt) => { setComment(evt.target.value) }}
             disabled={false}
+        />
+        <InputCheckbox
+            id='isFactCheck'
+            labelText='Is Fact Check'
+            onChange={(evt) => { setIsFactCheck(evt.target.checked) }}
+            disabled={false}
+            checked={false}
         />
         <InputText
             id='reference1'
