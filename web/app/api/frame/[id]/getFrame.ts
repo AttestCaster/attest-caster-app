@@ -3,12 +3,12 @@
 import { getFrameHtmlResponse } from '@coinbase/onchainkit/frame';
 import { getFnameByFid } from 'app/api/farcaster/cast/_utils/fname';
 import { getCast } from 'app/api/farcaster/cast/_utils/hub';
-import { NextResponse } from 'next/server';
 import {
   AttestationData,
   AttestationResponse,
   getAttestation,
 } from 'app/api/sign-protocol/_utils/sign-protocol';
+import { NextResponse } from 'next/server';
 
 const ATTESTATION_CASTER_URL = process.env.NEXT_PUBLIC_WEBSITE_URL as string;
 const WARPCAST_URL = 'https://warpcast.com';
