@@ -164,8 +164,8 @@ export default function Main(props: any) {
         </p>
         <p>
           Use this link to share in Farcaster with Farcaster Frame:{' '}
-          <a target="_blank" href={'/api/frame/' + attestResult + '/metadata'}>
-            {`${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/frame/` + attestResult + '/metadata'}
+          <a target="_blank" href={'/api/frame/' + attestResult + '/0'}>
+            {`${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/frame/` + attestResult + '/0'}
           </a>
         </p>
       </div>
