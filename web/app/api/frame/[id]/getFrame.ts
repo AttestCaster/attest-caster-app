@@ -16,7 +16,7 @@ const SIGN_SCAN_URL = (process.env.NEXT_PUBLIC_SIGN_SCAN_URL as string) + '/atte
 
 function urlOrDefault(url: string) {
   if (url === null || url === undefined || url === '') {
-    return 'about:blank';
+    return ATTESTATION_CASTER_URL;
   }
   return url;
 }
