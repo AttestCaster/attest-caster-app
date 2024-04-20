@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { NeynarAPIClient, isApiErrorResponse, CastParamType } from "@neynar/nodejs-sdk";
+import { NeynarAPIClient, isApiErrorResponse, CastParamType } from '@neynar/nodejs-sdk';
 import { clsx } from 'clsx';
 import Button from '@/components/Button/Button';
 
@@ -26,33 +26,34 @@ const getCastByURL = async (url: string) => {
 
     // Stringify and log the response
     console.log(JSON.stringify(castAdd));
-    return [castAdd.cast.author.fid, castAdd.cast.hash, castAdd]
+    return [castAdd.cast.author.fid, castAdd.cast.hash, castAdd];
   } catch (error) {
     // isApiErrorResponse can be used to check for Neynar API errors
     if (isApiErrorResponse(error)) {
-      console.log("API Error", error.response.data);
+      console.log('API Error', error.response.data);
     } else {
-      console.log("Generic Error", error);
+      console.log('Generic Error', error);
     }
-    return []
+    return [];
   }
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function HomeHeader(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   async function retrieveCast() {
-    console.log(props.castURL)
+    console.log(props.castURL);
     const [fid, castHash, castAdd] = await getCastByURL(props.castURL);
-    console.log('fid, castHash, castAdd', fid, castHash, castAdd)
+    console.log('fid, castHash, castAdd', fid, castHash, castAdd);
     if (typeof castAdd === 'object') {
       props.setCast(castAdd.cast.text);
     } else {
       props.setCast(castAdd);
     }
-    props.setCastFID(fid)
-    props.setCastHash(castHash)
+    props.setCastFID(fid);
+    props.setCastHash(castHash);
+    window.location.href = '#anchor1';
   }
 
   return (
@@ -65,7 +66,7 @@ export default function HomeHeader(props: any) {
           <br />
           <br />
         </h1>
-        <p className={styles.HomeHeaderParagraph}>
+        <p id="anchor1" className={styles.HomeHeaderParagraph}>
           Attest the casts
           <br />
           Build a better social network.
@@ -85,11 +86,7 @@ export default function HomeHeader(props: any) {
               required
             />
             <Button
-              buttonContent={
-                <>
-                  Get Cast
-                </>
-              }
+              buttonContent={<>Get Cast</>}
               type="submit"
               onClick={retrieveCast}
               disabled={false}
