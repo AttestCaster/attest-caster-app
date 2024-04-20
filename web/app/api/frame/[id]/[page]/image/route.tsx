@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import satori from 'satori';
 import sharp from 'sharp';
 
-const fontPath = join(process.env.FONT_BASE_PATH as string, 'static/NotoSansSC-Regular.ttf');
+const fontPath = join(process.cwd(), 'public/NotoSansSC/static/NotoSansSC-Regular.ttf');
 let fontData = fs.readFileSync(fontPath);
 
 const urlMetadata = require('url-metadata');
