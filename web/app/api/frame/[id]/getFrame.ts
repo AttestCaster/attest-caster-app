@@ -14,13 +14,16 @@ const ATTESTATION_CASTER_URL = process.env.NEXT_PUBLIC_WEBSITE_URL as string;
 const WARPCAST_URL = 'https://warpcast.com';
 const SIGN_SCAN_URL = (process.env.NEXT_PUBLIC_SIGN_SCAN_URL as string) + '/attestation';
 
+function urlOrDefault(url: string) {
+  if (url === null || url === undefined || url === '') {
+    return 'about:blank';
+  }
+  return url;
+}
+
 export async function getFrame0(id: string) {
   const attestation: AttestationResponse = await getAttestation(id);
   const attestation_data: AttestationData = JSON.parse(attestation.data);
-
-  const cast = (await getCast(attestation_data.castAuthorFID, attestation_data.castHash)).data
-    .castAddBody.text;
-  const author = (await getFnameByFid(attestation_data.castAuthorFID)).transfers[0].username;
   const attester = (await getFnameByFid(attestation_data.attesterFID)).transfers[0].username;
 
   return new NextResponse(
@@ -50,6 +53,8 @@ export async function getFrame0(id: string) {
         aspectRatio: '1:1',
       },
       postUrl: ATTESTATION_CASTER_URL + `/api/frame/${id}/0`,
+      ogTitle: 'AttestCaster - Initial Frame - Attestation' + id,
+      ogDescription: 'Original cast and context of attestation ' + { id },
     }),
   );
 }
@@ -64,12 +69,12 @@ export async function getFrame1(id: string) {
         {
           label: 'Reference 1',
           action: 'link',
-          target: attestationData.reference1,
+          target: urlOrDefault(attestationData.reference1),
         },
         {
           label: 'Reference 2',
           action: 'link',
-          target: attestationData.reference2,
+          target: urlOrDefault(attestationData.reference2),
         },
         {
           label: 'Next',
@@ -85,6 +90,8 @@ export async function getFrame1(id: string) {
         aspectRatio: '1:1',
       },
       postUrl: ATTESTATION_CASTER_URL + `/api/frame/${id}/1`,
+      ogTitle: 'AttestCaster - Second Frame - Attestation' + id,
+      ogDescription: 'Reference 1 and reference 2 of attestation ' + { id },
     }),
   );
 }
@@ -99,12 +106,12 @@ export async function getFrame2(id: string) {
         {
           label: 'Reference 3',
           action: 'link',
-          target: attestationData.reference3,
+          target: urlOrDefault(attestationData.reference3),
         },
         {
           label: 'Reference 4',
           action: 'link',
-          target: attestationData.reference4,
+          target: urlOrDefault(attestationData.reference4),
         },
         {
           label: 'Back',
@@ -116,6 +123,8 @@ export async function getFrame2(id: string) {
         aspectRatio: '1:1',
       },
       postUrl: ATTESTATION_CASTER_URL + `/api/frame/${id}/2`,
+      ogTitle: 'AttestCaster - Third Frame - Attestation' + id,
+      ogDescription: 'Reference 3 and reference 4 of attestation ' + { id },
     }),
   );
 }
@@ -147,6 +156,8 @@ export async function getFrame3(id: string) {
         aspectRatio: '1:1',
       },
       postUrl: ATTESTATION_CASTER_URL + `/api/frame/${id}/3`,
+      ogTitle: 'AttestCaster - Info Frame - Attestation' + id,
+      ogDescription: 'Info about AttestCaster',
     }),
   );
 }
