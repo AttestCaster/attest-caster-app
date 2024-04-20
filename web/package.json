@@ -22,7 +22,6 @@
     "@coinbase/wallet-sdk": "^3.9.1",
     "@ethsign/sp-sdk": "^0.3.23",
     "@farcaster/hub-nodejs": "^0.11.8",
-    "@img/sharp-linux-x64": "^0.33.3",
     "@neynar/nodejs-sdk": "^1.16.1",
     "@noble/hashes": "^1.4.0",
     "@privy-io/react-auth": "^1.56.2",
@@ -118,5 +117,9 @@
     "ts-jest": "^29.1.1",
     "typescript": "~5.3.3"
   },
-  "packageManager": "yarn@4.1.0"
+  "packageManager": "yarn@4.1.0",
+  "os": [
+    "darwin",
+    "linux"
+  ]
 }

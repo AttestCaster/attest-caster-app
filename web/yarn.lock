@@ -2447,7 +2447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@img/sharp-linux-x64@npm:0.33.3, @img/sharp-linux-x64@npm:^0.33.3":
+"@img/sharp-linux-x64@npm:0.33.3":
   version: 0.33.3
   resolution: "@img/sharp-linux-x64@npm:0.33.3"
   dependencies:
@@ -2455,7 +2455,6 @@ __metadata:
   dependenciesMeta:
     "@img/sharp-libvips-linux-x64":
       optional: true
-  checksum: 10c0/c8ee6a7c1a63a95f3593a0ecc0a3fee47b3db500565eeeabd7114591f602dabb75f84512aa4a43d3d5eb8c850663fa0c9fc2603feee1783e765f8db2dc07b525
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -6740,7 +6739,6 @@ __metadata:
     "@coinbase/wallet-sdk": "npm:^3.9.1"
     "@ethsign/sp-sdk": "npm:^0.3.23"
     "@farcaster/hub-nodejs": "npm:^0.11.8"
-    "@img/sharp-linux-x64": "npm:^0.33.3"
     "@jest/globals": "npm:^29.7.0"
     "@neynar/nodejs-sdk": "npm:^1.16.1"
     "@noble/hashes": "npm:^1.4.0"
