@@ -54,7 +54,7 @@
     "remark-rehype": "^11.0.0",
     "satori": "^0.10.13",
     "scroll-into-view-if-needed": "^3.1.0",
-    "sharp": "^0.33.3",
+    "sharp": "^0.32.6",
     "shikiji": "^0.9.17",
     "shikiji-core": "^0.9.17",
     "unified": "^11.0.4",
