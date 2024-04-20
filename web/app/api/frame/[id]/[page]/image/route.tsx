@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import satori from 'satori';
 import sharp from 'sharp';
 
-const fontPath = join(process.cwd(), 'Roboto-Regular.ttf');
+const fontPath = join(process.env.FONT_BASE_PATH as string, 'static/NotoSansSC-Regular.ttf');
 let fontData = fs.readFileSync(fontPath);
 
 const urlMetadata = require('url-metadata');
@@ -50,9 +50,10 @@ async function getNode(id: string, page: number) {
             height: '100%',
             backgroundColor: 'white',
             padding: 50,
-            lineHeight: 1.2,
+            lineHeight: 1.0,
             fontSize: 24,
             textAlign: 'justify',
+            wordBreak: 'break-all',
             color: 'grey',
           }}
         >
@@ -190,7 +191,7 @@ export async function GET(
       fonts: [
         {
           data: fontData,
-          name: 'Roboto',
+          name: 'NotoSans',
           style: 'normal',
           weight: 400,
         },
