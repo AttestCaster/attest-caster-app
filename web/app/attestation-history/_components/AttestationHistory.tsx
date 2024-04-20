@@ -35,11 +35,12 @@ export default function AttestationHistory({ historyRows }: Props) {
         {/* <td className={tdClass}>{row.schemaId}</td> */}
         {/* <td className={tdClass}>{row.attester}</td> */}
         {/* <td className={tdClass}>{data.attesterFID}</td> */}
-        <td className={tdClass}>{data.attesterComment}</td>
+        <td className={tdClass}>{data.context}</td>
         <td className={tdClass}>
           <code className="text-sm">{data.castHash}</code>
         </td>
-        <td className={tdClass}>{data.authorFID}</td>
+        <td className={tdClass}>{data.castAuthorFID}</td>
+        <td className={tdClass}><a href={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/frame/${row.id}/0`}>Frame Link</a></td>
       </tr>))
     }
   }
@@ -71,6 +72,7 @@ export default function AttestationHistory({ historyRows }: Props) {
                 <th className={tdClass}>Attester Comment</th>
                 <th className={tdClass}>Cast Hash</th>
                 <th className={tdClass}>Cast Author</th>
+                <th className={tdClass}>Frame Link</th>
               </tr>
             </thead>
             <tbody>
