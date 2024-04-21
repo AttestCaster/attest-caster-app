@@ -13,6 +13,7 @@ import Header from '@/components/layout/header/Header';
 import styles from './Home.module.css';
 import InputText from './InputText';
 import Label from './Label';
+import { useState } from 'react';
 
 // API can be used: https://docs.neynar.com/reference/cast
 const getCastByURL = async (url: string) => {
@@ -42,18 +43,28 @@ const getCastByURL = async (url: string) => {
 export default function HomeHeader(props: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
+  const [buttonContent, setButtonContent] = useState("Get Cast");
+
   async function retrieveCast() {
     console.log(props.castURL);
-    const [fid, castHash, castAdd] = await getCastByURL(props.castURL);
-    console.log('fid, castHash, castAdd', fid, castHash, castAdd);
-    if (typeof castAdd === 'object') {
-      props.setCast(castAdd.cast.text);
-    } else {
-      props.setCast(castAdd);
+    setButtonContent("Getting Cast...");
+    try {
+      const [fid, castHash, castAdd] = await getCastByURL(props.castURL);
+      console.log('fid, castHash, castAdd', fid, castHash, castAdd);
+      if (typeof castAdd === 'object') {
+        props.setCast(castAdd.cast.text);
+      } else {
+        props.setCast(castAdd);
+      }
+      props.setCastFID(fid);
+      props.setCastHash(castHash);
+      window.location.href = '#anchor1';
+    } catch (error) {
+      console.log("Error fetching cast data: ", error);
+    } finally {
+      setButtonContent("Get Cast");
     }
-    props.setCastFID(fid);
-    props.setCastHash(castHash);
-    window.location.href = '#anchor1';
+
   }
 
   return (
@@ -86,7 +97,7 @@ export default function HomeHeader(props: any) {
               required
             />
             <Button
-              buttonContent={<>Get Cast</>}
+              buttonContent={buttonContent}
               type="submit"
               onClick={retrieveCast}
               disabled={false}
