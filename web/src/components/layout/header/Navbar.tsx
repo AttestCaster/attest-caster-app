@@ -32,7 +32,7 @@ export function NavbarTitle() {
   return (
     <div className="flex h-8 items-center justify-start gap-4">
       <NextLink href="/" passHref className="relative h-8 w-8" aria-label="Home page">
-        <div className="absolute size-8 rounded-full bg-white" />
+        <img src="/icons/48x48.png" alt="48x48" />
       </NextLink>
       <NextLink
         href="/"
