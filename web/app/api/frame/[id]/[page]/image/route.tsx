@@ -154,7 +154,7 @@ async function getNode(id: string, page: number) {
         </div>
       );
     default:
-      const team_names = '[List team names]'; // TODO
+      const team_names = 'Spice Works';
       return (
         <div
           style={{
