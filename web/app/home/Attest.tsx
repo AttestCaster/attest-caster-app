@@ -11,6 +11,7 @@ import InputCheckbox from 'app/home/_components/InputCheckbox';
 import InputText from 'app/home/_components/InputText';
 import { useAccount } from 'wagmi';
 import Button from '@/components/Button/Button';
+import InputRadiobox from './_components/InputRadiobox';
 
 export default function Main(props: any) {
   const [comment, setComment] = useState('');
@@ -104,7 +105,7 @@ export default function Main(props: any) {
         }}
         disabled={false}
       />
-      <InputCheckbox
+      {/* <InputCheckbox
         id="isFactCheck"
         labelText="Is Fact Check"
         onChange={(evt) => {
@@ -112,7 +113,16 @@ export default function Main(props: any) {
         }}
         disabled={false}
         checked={false}
-      />
+      /> */}
+      <InputRadiobox
+        id="isFactCheck"
+        labelText="Is the statement true or false?"
+        onChange={(evt) => {
+          setIsFactCheck(evt.target.checked);
+        }}
+        disabled={false}
+        checked={true}>
+      </InputRadiobox>
       <InputText
         id="reference1"
         placeholder="Input reference1 here(optional)"
