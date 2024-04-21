@@ -20,6 +20,9 @@ let fontData = fs.readFileSync(fontPath);
 const urlMetadata = require('url-metadata');
 
 async function getTitle(url: string) {
+  if (url === null || url == undefined) {
+    return null;
+  }
   try {
     const metadata = await urlMetadata(url);
     return metadata['title'] || metadata['og:title'];
